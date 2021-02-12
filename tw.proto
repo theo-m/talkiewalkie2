@@ -2,33 +2,55 @@ syntax = "proto3";
 package tw;
 
 option go_package = "github.com/theo-m/talkiewalkie/pb";
+import "google/protobuf/timestamp.proto";
 
-message Person {
-  string name = 1;
-  int32 id = 2;  // Unique ID number for this person.
+message Walk {
+  string uuid = 1;
+  string name = 2;
+  string description = 6;
+  repeated WalkPoint walkPoints = 7;
+  User author = 3;
+  google.protobuf.Timestamp createdAt = 4;
+  google.protobuf.Timestamp updatedAt = 5;
+}
+
+message WalkPoint {
+  string uuid = 1;
+  string audioBlobUrl = 2;
+  repeated Asset assets = 3;
+  string title = 4;
+  string description = 5;
+}
+
+message Asset {
+  enum AssetType {
+    UNKNOWN = 0;
+    IMAGE = 1;
+    SOUND = 2;
+    VIDEO = 3;
+  }
+  AssetType type = 1;
+  string url = 2;
+}
+
+message User {
+  string uuid = 1;
+  string handle = 2;
   string email = 3;
-
-  enum PhoneType {
-    MOBILE = 0;
-    HOME = 1;
-    WORK = 2;
-  }
-
-  message PhoneNumber {
-    string number = 1;
-    PhoneType type = 2;
-  }
-
-  repeated PhoneNumber phones = 4;
-
-  string last_updated = 5;
 }
 
-// Our address book file is just one of these.
-message AddressBook {
-  repeated Person people = 1;
+service TalkieWalkie {
+  rpc Register(RegisterInput) returns (User);
+  rpc GetUser(GetUserInput) returns (User);
+//  rpc GetWalk(string) returns (Walk);
 }
 
-service AB {
-  rpc Get(AddressBook) returns (AddressBook);
+message RegisterInput {
+  string handle = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message GetUserInput {
+  string uuid = 1;
 }

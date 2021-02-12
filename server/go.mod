@@ -8,8 +8,6 @@ require (
 	github.com/golang-migrate/migrate/v4 v4.12.2
 	github.com/golang/protobuf v1.4.2
 	github.com/gorilla/mux v1.7.4
-	github.com/graphql-go/graphql v0.7.9
-	github.com/graphql-go/handler v0.2.3
 	github.com/joho/godotenv v1.3.0
 	github.com/kat-co/vala v0.0.0-20170210184112-42e1d8b61f12
 	github.com/lib/pq v1.3.0
